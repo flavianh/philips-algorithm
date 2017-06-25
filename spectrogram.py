@@ -39,3 +39,13 @@ def aggregate_bark_bands(f, spect):
                                                      axis=0)
 
     return bark_scale, spectrogram_per_band
+
+
+def binarization(spect):
+    """Binarize the spectrogram according to the Philips algorithm rule."""
+    fq_differences = np.roll(spect, 1, axis=0) - spect
+    binarized = np.roll(fq_differences, 1, axis=1) > fq_differences
+    # Change the content of the binarized array from booleans to integers 0 and 1
+    binarized = binarized.astype(np.uint8)
+
+    return binarized
